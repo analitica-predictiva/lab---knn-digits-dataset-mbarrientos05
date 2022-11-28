@@ -18,7 +18,14 @@ def pregunta_01():
     """
 
     # Cargue el dataset digits
-    digits = datasets.load_digits()
+    digits = datasets.load_digits(
+    # -------------------------------------------------------------------------
+    # The number of classes to return. Between 0 and 10.
+    n_class = 10,
+    # -------------------------------------------------------------------------
+    # If True, returns (data, target) instead of a Bunch
+    # object.
+    return_X_y = False)
 
     # Imprima los nombres de la variable target del dataset
     print(digits.target_names)
@@ -41,10 +48,18 @@ def pregunta_02():
     from sklearn.model_selection import train_test_split
 
     # Cargue el dataset digits
-    digits = datasets.load_digits()
+    digits = datasets.load_digits(
+    # -------------------------------------------------------------------------
+    # The number of classes to return. Between 0 and 10.
+    n_class = 10,
+    # -------------------------------------------------------------------------
+    # If True, returns (data, target) instead of a Bunch
+    # object.
+    return_X_y = False)
 
     # Cree los vectors de características y de salida
-    X = digits.data
+    n_samples = len(digits.images)
+    X = digits.data.reshape((n_samples, -1))
     y = digits.target
 
     # Divida los datos de entrenamiento y prueba. Los conjuntos de datos están
@@ -86,7 +101,8 @@ def pregunta_03():
     return_X_y = False)
 
     # Cree los vectors de características y de salida
-    X = digits.data
+    n_samples = len(digits.images)
+    X = digits.data.reshape((n_samples, -1))
     y = digits.target
 
     # Divida los datos de entrenamiento y prueba. Los conjuntos de datos están
