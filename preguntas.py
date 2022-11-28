@@ -21,7 +21,7 @@ def pregunta_01():
     digits = datasets.load_digits()
 
     # Imprima los nombres de la variable target del dataset
-    print(digits.target)
+    print(digits.target_names)
 
     # Imprima las dimensinoes de matriz de datos
     print(digits.data.shape)
@@ -51,14 +51,14 @@ def pregunta_02():
     # estratificados. La semilla del generador de números aleatorios es 42.
     # El tamaño del test es del 20%
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.8, random_state=42, stratify=y
+        X, y, test_size=0.2, random_state=42, stratify=y
     )
 
     # Cree un clasificador con siete vecinos
     knn = KNeighborsClassifier(n_neighbors=7)
 
     # Entrene el clasificador
-    knn.fit(X, y)
+    knn.fit(X_train, y_train)
 
     # Imprima la precisión (score) del clasificador en el conjunto de datos de prueba
     print(round(knn.score(X_test, y_test), 4))
@@ -76,16 +76,23 @@ def pregunta_03():
     from sklearn.model_selection import train_test_split
 
     # Cargue el dataset digits
-    digits = datasets.load_digits()
+    digits = datasets.load_digits(
+    # -------------------------------------------------------------------------
+    # The number of classes to return. Between 0 and 10.
+    n_class = 10,
+    # -------------------------------------------------------------------------
+    # If True, returns (data, target) instead of a Bunch
+    # object.
+    return_X_y = False)
 
     # Cree los vectors de características y de salida
-    X = digits.images.reshape((len(digits.images), -1))
+    X = digits.data
     y = digits.target
 
     # Divida los datos de entrenamiento y prueba. Los conjuntos de datos están
     # estratificados. La semilla del generador de números aleatorios es 42.
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.8, random_state=42, stratify=y
+        X, y, test_size=0.2, random_state=42, stratify=y
     )
 
     # Inicialice los arreglos para almacenar la precisión para las muestras de
@@ -97,10 +104,10 @@ def pregunta_03():
     # Se itera sobre diferentes valores de vecinos
     for i, k in enumerate(neighbors):
         # Cree un clasificador con k vecinos
-        knn = KNeighborsClassifier(n_neighbors=7)
+        knn = KNeighborsClassifier(n_neighbors=k)
 
         # Entrene el clasificador con los datos de entrenamiento
-        knn.fit(X, y)
+        knn.fit(X_train, y_train)
 
         # Calcule la precisión para el conjunto de datos de entrenamiento
         train_accuracy[i] = knn.score(X_train, y_train)
